@@ -1,18 +1,70 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Hangman Game</title>
+</head>
+<body>
+
+<div class="game-title">
+	<h1> PLAY THE GAME</h1>
+</div>
+
+<script type="text/javascript">
+	// random word generation function 
+	var words = [ "rose", "jasmine", "magnolia", "lilac", "iris", "carnation", "sunflower", "tulip", "lotus", "daisy"]
+
+	function getRandomIntInclusive() {
+		return Math.floor(Math.random() * (10));
+	};
+
+	var secretWord= words[getRandomIntInclusive()];
+
+	console.log(secretWord);
+
+
+</script>
+
+
+<script type="text/javascript">
+// user prompt function - string parsing, creating new array for word, for loop goes through letters of word and follows if/else statements
+
+
+var userGuessLetter = [];
+
+var parsedWord = [] 
+for ( var i = 0; i < secretWord.length; i++) {
+	parsedWord.push(secretWord[i]);
+};
+ 
+console.log(parsedWord)
+
+
+
+
+	
+
+</script>
+
+
+
+
+</body>
+</html>
+
+
+
 psuedocode:
-theme:
+theme: ???
 create different parts of the game as seperate functions/html elements
 the parts of the game are:
-1) the noose and noose holder
-2) the letters underneath the noose
-3) the man which has the following parts:
-	a) head
-	b) body
-	c) 2 arms
-	d) 2 legs 
-
+1) image of the guess
+2) words underneath 
 create serveral words and place their letters into an array
 create an array of arrays 
 create a function to randomly pick an array to play 
-create a user prompt that asks to guess letters
+create a event.key that asks to guess letters
 place the letter into a variable 
-compare the variable to the current array 
+write a for loop to compare the variable to the current array 
+make announcement about whter the letter is in the word
+if matches, make letter appear. 
