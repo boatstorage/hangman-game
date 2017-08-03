@@ -9,46 +9,75 @@
 <div class = "opening-animation">
 	<h1> PLAY THE GAME</h1>
 	<img src="">
+	<p> press any key to play</p>
 </div>
 
-<div class = "game-container"> 
+<div id="game-container"> 
 
 
 <div class="game-title">
 	
 </div>
 
-<div class="scoreCounter">
+<div class=intstructions>
+	<p>guess the letters of the mystery flowers to solve the puzzle. you get 10 wrong guesses</p>
 </div>
 
-<div class="guessedletters"> 
+<div id="scoreCounter">
 </div>
 
-<div class="dash-letter-bar">
+<div id="guessedletters"> 
+</div>
+
+<div id="dash-letter-bar">
 </div>
 
 </div>
 
 <script type="text/javascript">
-	// random word generation function 
+
+// random word generation function 
 	var words = [ "rose", "jasmine", "magnolia", "lilac", "iris", "carnation", "sunflower", "tulip", "lotus", "daisy"]
+
+	function playGame(words) {
+		
+		for (var i = 0; i <= 10; i++){
+			document.onkeyup = function(event){
+			var userGuess = event.key;
+			};
+
+		};
+	};
+
+
+
+	
 
 	function getRandomIntInclusive() {
 		return Math.floor(Math.random() * (10));
 	};
 
 	var secretWord= words[getRandomIntInclusive()];
-
-
-	console.log(secretWord);
+		console.log(secretWord);
 
 	//word parsing function 
 	var parsedWord = [] 
-		for ( var i = 0; i < secretWord.length; i++) {
-			parsedWord.push(secretWord[i]);
-		};
+	for ( var i = 0; i < secretWord.length; i++) {
+		parsedWord.push(secretWord[i]);
+	};
  
-	console.log(parsedWord)
+	console.log(parsedWord);
+
+	function makeDisplayWord(secretWord) {
+		var displayWord = "";
+			for (var i = 0; i < secretWord.length; i++) {
+			displayWord += "-";
+			};
+			return displayWord;
+	};
+
+	console.log(makeDisplayWord(secretWord));
+
 
 
 
@@ -58,13 +87,17 @@
 
 <script type="text/javascript">
 // user prompt function - string parsing, creating new array for word, for loop goes through letters of word and follows if/else statements
-
-
 var userGuessLetter = [];
 
 var guessedletters = [];
 
 var scoreCounter = 0; 
+var player = document.getElementById("game-container");
+
+
+
+var wordFiller = document.getElementById("dash-letter-bar");
+
 
 
 
