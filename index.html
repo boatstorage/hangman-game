@@ -15,22 +15,34 @@
 <div id="game-container"> 
 
 
-<div class="game-title">
+	<div class="game-title">
+		
+	</div>
+
+	<div class=intstructions>
+		<p>guess the letters of the mystery flowers to solve the puzzle.</p>
+	</div>
+	<div class="jumbotron">
+  	
+		<p id="scoreCounter"></p>
 	
-</div>
+		<p id="wrongGuessCount"></p>
 
-<div class=intstructions>
-	<p>guess the letters of the mystery flowers to solve the puzzle. you get 10 wrong guesses</p>
-</div>
+		<p id="guessedletters"> </p>
+	
 
-<div id="scoreCounter">
-</div>
+	<div>
+		<p id="currentGuess"></p>
+	</div>
 
-<div id="guessedletters"> 
-</div>
+	<div>
+		<p id="dash-letter-bar"></p>
+	</div>
 
-<div id="dash-letter-bar">
-</div>
+	<div>
+		<p id="result"></p>
+	</div>
+	</div>
 
 </div>
 
@@ -39,34 +51,87 @@
 // random word generation function 
 	var words = [ "rose", "jasmine", "magnolia", "lilac", "iris", "carnation", "sunflower", "tulip", "lotus", "daisy"]
 
+	var userGuessLetter = [];
+
+	var guessedletters = [];
+
+	var scoreCounter = 0; 
+		
+	var userGuess = "";	
+
+	var wrongGuessCount = 0;
+
+	var correctletterIndex = null;
+
+
+
 	function playGame(words) {
 		
-		for (var i = 0; i <= 10; i++){
+		var secretWord = words[getRandomIntInclusive()];
+		
+		var displayWord= makeDisplayWord(secretWord);
+
+		var parsedWord = makeParsedWord(secretWord);
+
+		document.getElementById("dash-letter-bar").innerHTML = displayWord;
+
+		console.log(parsedWord.join());
+
 			document.onkeyup = function(event){
-			var userGuess = event.key;
+			event.preventDefault();
+		    userGuess = String.fromCharCode(event.keyCode).toLowerCase();
+		    console.log(parsedWord.join());
+			
+
+			if (parsedWord.length === 0) {
+				document.getElementById("result").innerHTML = "You Won!";
 			};
 
+			if (userGuess.match(/[a-z]/i) && !guessedletters.includes(userGuess)){
+				displayGuessedLetter(userGuess);
+				guessedletters.push(userGuess);
+				document.getElementById("guessedletters").innerHTML = guessedletters.join(", ");
+
+				if (parsedWord.includes(userGuess)) {
+
+					correctletterIndex = parsedWord.indexOf(userGuess);
+					delete parsedWord[correctletterIndex];
+					displayWord = updateDisplayWord(displayWord, correctletterIndex,userGuess);
+					console.log(displayWord);
+
+					document.getElementById("dash-letter-bar").innerHTML = displayWord;
+				}
+				else {
+					wrongGuessCount++;
+					document.getElementById("wrongGuessCount").innerHTML = wrongGuessCount;
+				
+				};
+			};	
+			if (wrongGuessCount === 10) {
+				document.getElementById("result").innerHTML = "you lost";
+			};
 		};
+
+
 	};
-
-
+	playGame(words);
 
 	
 
 	function getRandomIntInclusive() {
+		var secretWord = "";
 		return Math.floor(Math.random() * (10));
 	};
 
-	var secretWord= words[getRandomIntInclusive()];
-		console.log(secretWord);
 
-	//word parsing function 
-	var parsedWord = [] 
-	for ( var i = 0; i < secretWord.length; i++) {
-		parsedWord.push(secretWord[i]);
+
+	function makeParsedWord(secretWord) {
+		var parsedWord = [];
+		for (var i = 0; i < secretWord.length; i++) {
+			parsedWord.push(secretWord[i]);
+		};
+		return parsedWord;
 	};
- 
-	console.log(parsedWord);
 
 	function makeDisplayWord(secretWord) {
 		var displayWord = "";
@@ -76,8 +141,37 @@
 			return displayWord;
 	};
 
-	console.log(makeDisplayWord(secretWord));
+	function letterChecker(userGuess, parsedWord) {
+		for (var i =0; i < parsedWord.length; i++){
+			if (parsedWord[i] === userGuess) {
+				return true;
+		
+			};
 
+	};
+	return false;
+		};
+
+	function displayGuessedLetter(userGuess) {
+		document.getElementById("currentGuess").innerHTML = userGuess;
+	};
+
+	function updateDisplayWord(displayWord, correctletterIndex, userGuess){
+		var newDisplayWord = ""; 
+		for (var i = 0; i < displayWord.length; i++) {
+			if (i === correctletterIndex){
+				newDisplayWord += userGuess;
+
+			}
+			else {
+				newDisplayWord += displayWord[i];
+			}
+			
+		}
+		return newDisplayWord;
+	}
+
+ 
 
 
 
@@ -87,16 +181,32 @@
 
 <script type="text/javascript">
 // user prompt function - string parsing, creating new array for word, for loop goes through letters of word and follows if/else statements
-var userGuessLetter = [];
-
-var guessedletters = [];
-
-var scoreCounter = 0; 
-var player = document.getElementById("game-container");
 
 
 
-var wordFiller = document.getElementById("dash-letter-bar");
+
+//audio function 
+// var audioElement = document.createElement("audio");
+// audioElement.setAttribute("src", "assets/----.mp3");
+
+
+//  <div class="panel panel-default">
+//           <div class="panel-heading">
+//             <h3 class="panel-title">Evil Laugh!</h3>
+//           </div>
+//           <div class="panel-body">
+//             <div class="text-center">
+//               <button class="btn btn-info btn-lg laugh-button"><span class="glyphicon glyphicon-volume-up"></span> Laugh</button>
+//             </div>
+//           </div>
+//         </div>
+
+// $(".laugh-button").on("click", function() {
+//         audioLaughElement.play();
+//       });
+
+//       $(".pause-button").on("click", function() {
+//         audioLaughElement.pause();
 
 
 
@@ -116,7 +226,7 @@ var wordFiller = document.getElementById("dash-letter-bar");
 
 
 
-psuedocode:
+<!-- psuedocode:
 theme: ???
 create different parts of the game as seperate functions/html elements
 the parts of the game are:
@@ -130,3 +240,4 @@ place the letter into a variable
 write a for loop to compare the variable to the current array 
 make announcement about whter the letter is in the word
 if matches, make letter appear. 
+ -->
