@@ -83,11 +83,8 @@
 		    console.log(parsedWord.join());
 			
 
-			if (parsedWord.length === 0) {
-				document.getElementById("result").innerHTML = "You Won!";
-			};
 
-			if (userGuess.match(/[a-z]/i) && !guessedletters.includes(userGuess)){
+			if (userGuess.match(/[a-z]/i) && (parsedWord.includes(userGuess) || !guessedletters.includes(userGuess))){
 				displayGuessedLetter(userGuess);
 				guessedletters.push(userGuess);
 				document.getElementById("guessedletters").innerHTML = guessedletters.join(", ");
@@ -95,7 +92,7 @@
 				if (parsedWord.includes(userGuess)) {
 
 					correctletterIndex = parsedWord.indexOf(userGuess);
-					delete parsedWord[correctletterIndex];
+					parsedWord[correctletterIndex] = "*";
 					displayWord = updateDisplayWord(displayWord, correctletterIndex,userGuess);
 					console.log(displayWord);
 
@@ -109,6 +106,10 @@
 			};	
 			if (wrongGuessCount === 10) {
 				document.getElementById("result").innerHTML = "you lost";
+			};
+			
+			if (displayWord === secretWord) {
+				document.getElementById("result").innerHTML = "You Won!";
 			};
 		};
 
